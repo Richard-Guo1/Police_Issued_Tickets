@@ -19,15 +19,16 @@ raw_data <- read_csv("data/raw_data/raw_data.csv")
 # https://www.statology.org/r-guides/
 ###
 
-# Remove unusable data
+# Remove poorly documented data
 cleaned_data <- subset(raw_data, DIVISION != "NSA" & HOOD_158 != "NSA")
 
 # Remove non-relevant information
-cleaned_data <- cleaned_data %>% select(-c(X_id,TICKET_TYPE,NEIGHBOURHOOD_158))
+cleaned_data <- cleaned_data %>% select(-c(X_id, DIVISION,
+                                           TICKET_TYPE, NEIGHBOURHOOD_158))
 
 # Rename column names
-names(cleaned_data) <- c("Offence Year", "Division", "Offence Category", "Age 
-                         Group", "District Number", "Ticket Count")
+names(cleaned_data) <- c("Offence Year", "Offence Category", "Age Group", 
+                         "District Number", "Ticket Count")
 
 
 #### Save data ####
