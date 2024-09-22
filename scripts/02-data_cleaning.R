@@ -14,7 +14,12 @@ library(dplyr)
 #### Clean data ####
 raw_data <- read_csv("data/raw_data/raw_data.csv")
 
-#### Remove unusable data ###
+### 
+# The following code was written with help from various guides from
+# https://www.statology.org/r-guides/
+###
+
+# Remove unusable data
 cleaned_data <- subset(raw_data, DIVISION != "NSA" & HOOD_158 != "NSA")
 
 ### Remove non-relevant information ###
