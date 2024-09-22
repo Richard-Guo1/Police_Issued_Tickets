@@ -33,14 +33,15 @@ The categories of tickets are Aggressive Driving, All Compulsory Automobile Insu
 
 
 ```{r}
-#| label: Tickets
-#| fig-cap: Tickets
+#| label: tickets-by-year
+#| fig-cap: Annual Number of Police Issued Tickets between 2014 and 2023
 #| echo: false
   
 data |> 
   ggplot(aes(x = `Offence Year`, weight = `Ticket Count`, 
              fill = `Offence Category`)) + 
-  geom_bar() + labs(y = "Total Tickets")
+  geom_bar() + labs(y = "Total Tickets") + 
+  scale_x_continuous(breaks = c(2014:2023)) + guides(x = guide_axis(angle = 70))
 
 ```
 
@@ -58,7 +59,7 @@ Talk more about it.
 
 ## Third discussion point
 
-## Weaknesses and next steps
+## Limitations
 
 
 \newpage
