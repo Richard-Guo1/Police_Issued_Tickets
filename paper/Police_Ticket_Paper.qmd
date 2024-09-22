@@ -1,0 +1,80 @@
+---
+title: "The Effects of COVID-19 on Police Issued Tickets"
+subtitle: ""
+author: 
+  - Richard Guo
+thanks: "The code and data supporting this analysis are available at: https://github.com/Richard-Guo1/Police_Issued_Tickets."
+date: today
+date-format: long
+abstract: "To be included once analysis is completed"
+format: pdf
+number-sections: true
+bibliography: references.bib
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+
+data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
+
+```
+
+
+# Introduction
+
+The categories of tickets are Aggressive Driving, All Compulsory Automobile Insurance Act transgressions (All CAIA), Distracted Driving, Other Highway Traffic Act infractions (Other HTA), and speeding. 
+
+
+# Data {#sec-mydatasection}
+
+
+```{r}
+#| label: Tickets
+#| fig-cap: Tickets
+#| echo: false
+  
+data |> 
+  ggplot(aes(x = `Offence Year`, weight = `Ticket Count`, 
+             fill = `Offence Category`)) + 
+  geom_bar() + labs(y = "Total Tickets")
+
+```
+
+Talk more about it.
+
+
+
+
+
+# Discussion
+
+## First discussion point {#sec-first-point}
+
+## Second discussion point
+
+## Third discussion point
+
+## Weaknesses and next steps
+
+
+\newpage
+
+\appendix
+
+# Appendix {-}
+
+
+# Additional data details
+
+
+
+\newpage
+
+
+# References
+
+
