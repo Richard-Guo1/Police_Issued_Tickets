@@ -9,12 +9,16 @@
 
 #### Workspace setup ####
 library(tidyverse)
+library(dplyr)
 
 #### Clean data ####
 raw_data <- read_csv("data/raw_data/raw_data.csv")
 
 #### Remove unusable data ###
 cleaned_data <- subset(raw_data, DIVISION != "NSA" & HOOD_158 != "NSA")
+
+### Remove non-relevant information ###
+cleaned_data <- cleaned_data %>% select(-c(X_id,TICKET_TYPE,NEIGHBOURHOOD_158))
 
 
 #### Save data ####
