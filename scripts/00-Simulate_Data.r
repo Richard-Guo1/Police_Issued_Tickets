@@ -1,0 +1,50 @@
+#### Preamble ####
+# Purpose: Simulates data of police tickets by neighborhood
+# Author: Richard Guo
+# Date: 21 September 2024
+# Contact: richard.guo@mail.utoronto.ca
+# License: MIT
+# Pre-requisites: None
+# Any other information needed? None
+
+
+#### Workspace setup ####
+library(tidyverse)
+
+
+#### Simulate data ####
+set.seed(777)
+
+# Define the start and end date
+start_year <- 2014
+end_year <- 2024
+
+# Define the number of unique districts in Toronto
+districts <- 174
+
+# Set the number of random tickets you want to generate
+number_of_tickets <- 500
+
+sim_data <-
+  tibble(
+    ticket_id = 1:number_of_tickets,
+    offense_year = as.integer(
+      runif(
+        number_of_tickets,
+        start_year,
+        end_year
+      )
+    ),
+    hood_id = as.integer(
+      runif(
+        number_of_tickets,
+        1,
+        districts + 1
+      )
+    ),
+    ticket_count = rpois(n = number_of_tickets, lambda = 9)
+  )
+
+
+#### Write_csv
+write_csv(sim_data, file = "data/raw_data/simulated.csv")
