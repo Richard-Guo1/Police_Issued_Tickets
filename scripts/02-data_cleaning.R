@@ -23,11 +23,11 @@ raw_data <- read_csv("data/raw_data/raw_data.csv")
 cleaned_data <- subset(raw_data, DIVISION != "NSA" & HOOD_158 != "NSA")
 
 # Remove non-relevant information
-cleaned_data <- cleaned_data %>% select(-c(X_id, DIVISION,
-                                           TICKET_TYPE, NEIGHBOURHOOD_158))
+cleaned_data <- cleaned_data %>% select(-c(X_id, TICKET_TYPE, AGE_GROUP,
+                                           NEIGHBOURHOOD_158))
 
 # Rename column names
-names(cleaned_data) <- c("Offence Year", "Offence Category", "Age Group", 
+names(cleaned_data) <- c("Offence Year", "Division", "Offence Category",
                          "District Number", "Ticket Count")
 
 
