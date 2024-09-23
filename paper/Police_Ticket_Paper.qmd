@@ -57,6 +57,21 @@ Talk more about it.
 - major increase in speeding tickets between 2014-2019 and 2020-2023, aligns with covid lockdown restrictions 
 - possible explanation is ppl got used to speeding
 
+```{r}
+#| label: speeding-tickets-by-district
+#| fig-cap: filler
+#| echo: false
+#| fig-height: 20
+  
+speeding_subset = subset(data, data$`Offence Category` == "Speeding")
+
+speeding_subset |> 
+  ggplot(aes(x = `District Number`, weight = `Ticket Count`,  
+             fill = as.character(`Offence Year`>2019))) + 
+  geom_bar(position = "dodge") + labs(y = "Total Tickets") + 
+  guides(x = guide_axis(angle = 70)) + coord_flip()
+
+```
 https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/
 - other possible explanation is lower speed limits means more speeding
 - graph 2019-/2020+ speeding by district
@@ -67,7 +82,7 @@ https://www.toronto.ca/services-payments/streets-parking-transportation/road-saf
 
 
 ## Limitations
-This data was analyzed under the assumption that the increase in police issued tickets was solely caused by an increase in ticketable offences by drivers. It is possible that so
+A significant portion of the data had to be thrown out as either the police division or district number had no specified address (NSA). 
 \newpage
 
 \appendix
