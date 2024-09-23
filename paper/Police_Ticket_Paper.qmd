@@ -53,15 +53,21 @@ Talk more about it.
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+## Identifying the Cause of Increased Speeding Tickets {#sec-first-point}
+- major increase in speeding tickets between 2014-2019 and 2020-2023, aligns with covid lockdown restrictions 
+- possible explanation is ppl got used to speeding
 
-## Second discussion point
+https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/
+- other possible explanation is lower speed limits means more speeding
+- graph 2019-/2020+ speeding by district
+- observations
 
-## Third discussion point
+## second discussion point
+-map districts, ticket breakdown, year
+
 
 ## Limitations
-
-
+This data was analyzed under the assumption that the increase in police issued tickets was solely caused by an increase in ticketable offences by drivers. It is possible that so
 \newpage
 
 \appendix
