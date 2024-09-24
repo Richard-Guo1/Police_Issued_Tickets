@@ -18,6 +18,7 @@ bibliography: references.bib
 #| message: false
 
 library(tidyverse)
+library(knitr)
 
 data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
 spd_data <- 
@@ -57,23 +58,34 @@ Talk more about it.
 
 ## Identifying the Cause of Increased Speeding Tickets {#sec-first-point}
 - major increase in speeding tickets between 2014-2019 and 2020-2023, aligns with covid lockdown restrictions 
-- possible explanation is ppl got used to speeding
+- possible explanation is people sped more due to fewer cars on the roads and highways
 
 ```{r}
 #| label: tbl-speeding
-#| tab-cap: Speeding Tickets Sorted by District and Year
+#| tbl-cap: Speeding Tickets In Districts 1-6 Sorted by Year
 #| echo: false
 
-kable(spd_data)
+kable(head(spd_data))
 
 ```
 https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/
 - other possible explanation is lower speed limits means more speeding
-- graph 2019-/2020+ speeding by district
 - observations
 
 ## second discussion point
 -map districts, ticket breakdown, year
+
+```{r}
+#| label: tickets-by-division
+#| fig-cap: Police Issued Tickets for Speeding by Division in 2014-2023
+#| echo: false
+  
+subset(data,data$`Offence Year` >= 2016) |> 
+  ggplot(aes(x = Division, weight = `Ticket Count`, 
+             fill = as.character(`Offence Year` >2019))) + 
+  geom_bar(position = "dodge") + labs(y = "Speeding Tickets")
+
+```
 
 
 ## Limitations
@@ -87,7 +99,14 @@ A significant portion of the data had to be thrown out as either the police divi
 
 # Additional data details
 
+```{r}
+#| label: tbl-speeding
+#| tbl-cap: Speeding Tickets In all Districts Sorted by Year
+#| echo: false
 
+kable(spd_data)
+
+```
 
 \newpage
 
