@@ -48,7 +48,7 @@ data |>
 
 ```
 
-Talk more about it.
+It is a common assumption that the amount of police issued tickets is directly proportional to the number of drivers on a road. The conclusion of this assumption is that fewer cars on the roads, and by extension the COVID-19 stay at home policies, would cause a decrease in the number of tickets in 2020 compared to 2019. However, @tickets-by-year shows this is not the case. 
 
 
 
@@ -68,24 +68,35 @@ Talk more about it.
 kable(head(spd_data))
 
 ```
-https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/
+- A large increase in the amount of speeding tickets issued between 2019 and 2020 in district 1 - the West Humber-Claireville region - can be observed. The increase year-over-year is attributed to the district containing the connection point between Toronto-Pearson Airport and the rest of Toronto.
 - other possible explanation is lower speed limits means more speeding
 - observations
 
 ## second discussion point
--map districts, ticket breakdown, year
-
 ```{r}
-#| label: tickets-by-division
-#| fig-cap: Police Issued Tickets for Speeding by Division in 2014-2023
+#| label: all-tickets-by-division
+#| fig-cap: Police Issued Tickets by Division in 2016-2023
 #| echo: false
   
 subset(data,data$`Offence Year` >= 2016) |> 
   ggplot(aes(x = Division, weight = `Ticket Count`, 
              fill = as.character(`Offence Year` >2019))) + 
+  geom_bar(position = "dodge") + labs(y = "Total Tickets")
+
+```
+
+```{r}
+#| label: speeding-tickets-by-division
+#| fig-cap: Police Issued Tickets for Speeding by Division in 2016-2023
+#| echo: false
+  
+subset(data,data$`Offence Year` >= 2016 & data$`Offence Category`=="Speeding") |> 
+  ggplot(aes(x = Division, weight = `Ticket Count`, 
+             fill = as.character(`Offence Year` >2019))) + 
   geom_bar(position = "dodge") + labs(y = "Speeding Tickets")
 
 ```
+
 
 
 ## Limitations
@@ -100,7 +111,7 @@ A significant portion of the data had to be thrown out as either the police divi
 # Additional data details
 
 ```{r}
-#| label: tbl-speeding
+#| label: tbl-speeding-full
 #| tbl-cap: Speeding Tickets In all Districts Sorted by Year
 #| echo: false
 
