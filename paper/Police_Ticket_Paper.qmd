@@ -20,6 +20,8 @@ bibliography: references.bib
 library(tidyverse)
 
 data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
+spd_data <- 
+  read.csv(here::here("data/analysis_data/speeding_by_district_and_year"))
 
 ```
 
@@ -58,18 +60,11 @@ Talk more about it.
 - possible explanation is ppl got used to speeding
 
 ```{r}
-#| label: speeding-tickets-by-district
-#| fig-cap: filler
+#| label: tbl-speeding
+#| tab-cap: Speeding Tickets Sorted by District and Year
 #| echo: false
-#| fig-height: 20
-  
-speeding_subset = subset(data, data$`Offence Category` == "Speeding")
 
-speeding_subset |> 
-  ggplot(aes(x = `District Number`, weight = `Ticket Count`,  
-             fill = as.character(`Offence Year`>2019))) + 
-  geom_bar(position = "dodge") + labs(y = "Total Tickets") + 
-  guides(x = guide_axis(angle = 70)) + coord_flip()
+kable(spd_data)
 
 ```
 https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/safety-initiatives/speed-limit-reductions/
