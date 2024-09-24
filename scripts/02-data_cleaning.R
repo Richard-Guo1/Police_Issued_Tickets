@@ -30,6 +30,24 @@ cleaned_data <- cleaned_data %>% select(-c(X_id, TICKET_TYPE, AGE_GROUP,
 names(cleaned_data) <- c("Offence Year", "Division", "Offence Category",
                          "District Number", "Ticket Count")
 
+# Create a subset detailing only speeding data
+speeding_subset = subset(data, data$`Offence Category` == "Speeding")  
+
+### Generate a table of Speeding tickets by district by year ###
+#Initialize dummy table
+speeding_table = tibble(District = 1:174, `2014`=1,`2015`=1, `2016`=1,`2017`=1, 
+                        `2018`=1,`2019`=1, `2020`=1,`2021`=1, `2022`=1,`2023`=1)
+
+#Iteratively fill out table
+for(c in 2:11){
+  for(district_number in 1:174){
+    temp = subset(speeding_subset, speeding_subset$`Offence Year` == 2012 + c & 
+                    speeding_subset$`District Number`== district_number)
+    speeding_table[[c]][[district_number]] = sum(temp$'Ticket Count')
+  }
+}
 
 #### Save data ####
 write_csv(cleaned_data, "data/analysis_data/analysis_data.csv")
+write_csv(speeding_subset, "data/analysis_data/speeding_data.csv")
+write_csv(speeding_table, "data/analysis_data/speeding_by_district_and_year")
