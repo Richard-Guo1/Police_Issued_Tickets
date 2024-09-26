@@ -17,7 +17,7 @@ set.seed(777)
 
 # Define the start and end date
 start_year <- 2014
-end_year <- 2024
+end_year <- 2023
 
 # Define the number of unique districts in Toronto
 districts <- 174
@@ -31,12 +31,10 @@ number_of_tickets <- 500
 
 sim_data <-
   tibble(
-    offence_year = as.integer(
-      runif(
-        number_of_tickets,
-        start_year,
-        end_year
-      )
+    offence_year = sample(
+      start_year:end_year,
+      number_of_tickets,
+      replace = TRUE
     ),
     division = paste(
       "D",
