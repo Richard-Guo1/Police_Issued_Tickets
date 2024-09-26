@@ -1,5 +1,20 @@
-# Police Issued Tickets
-A paper analyzing the statistics of police reported tickets within Toronto
-No LLMs were used in the creation of this paper.
-District (Neighborhood) names were removed from the cleaned data for the sake of brevity. 
-The removed district names can be found in the raw data and match 1-to-1 with district ids.
+## The Effects of COVIDD-19 on Police Issued Tickets
+
+## Overview
+
+This is the repository for the paper "The Effects of COVID-19 on Police Issued Tickets", focusing on the increase of issued speeding tickets. The analysis uses data from reported tickets issued by all divisions of Toronto Police Services between the years 2014-2023. The data was obtained from Open Data Toronto. Analysis of the data suggests an inverse correlation between the number of speeding tickets and the number of vehicles on the road.
+
+## File Structure
+
+The repo is structured as:
+
+-   `data/raw_data` contains the raw data as obtained from the Open Data Toronto database.
+-   `data/analysis_data` contains the cleaned datasets that were constructed.
+-   `other` contains sketches of what the data may look like.
+-   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
+-   `scripts` contains the R scripts used to simulate, download and clean data.
+
+
+## Statement on LLM usage
+
+There was no usage of LLMs in the writing of this paper.
