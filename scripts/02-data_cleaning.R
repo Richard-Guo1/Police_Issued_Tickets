@@ -50,4 +50,4 @@ for(c in 2:11){
 #### Save data ####
 write_csv(cleaned_data, "data/analysis_data/analysis_data.csv")
 write_csv(speeding_subset, "data/analysis_data/speeding_data.csv")
-write_csv(speeding_table, "data/analysis_data/speeding_by_district_and_year")
+write_csv(speeding_table, "data/analysis_data/speeding_by_district_and_year.csv")
