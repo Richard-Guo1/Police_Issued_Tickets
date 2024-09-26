@@ -28,7 +28,7 @@ cleaned_data <- cleaned_data %>% select(-c(X_id, TICKET_TYPE, AGE_GROUP,
 
 # Rename column names
 names(cleaned_data) <- c("Offence Year", "Division", "Offence Category",
-                         "Neighborhood Number", "Ticket Count")
+                         "Neighbourhood Number", "Ticket Count")
 
 # Create a subset detailing only speeding data
 speeding_subset = subset(cleaned_data, 
@@ -36,14 +36,14 @@ speeding_subset = subset(cleaned_data,
 
 ### Generate a table of Speeding tickets by district by year ###
 #Initialize dummy table
-speeding_table = tibble(Neighborhood = 1:174, `2014`=1,`2015`=1, `2016`=1,`2017`=1, 
+speeding_table = tibble(Neighbourhood = 1:174, `2014`=1,`2015`=1, `2016`=1,`2017`=1, 
                         `2018`=1,`2019`=1, `2020`=1,`2021`=1, `2022`=1,`2023`=1)
 
 #Iteratively fill out table
 for(c in 2:11){
   for(hood_number in 1:174){
     temp = subset(speeding_subset, speeding_subset$`Offence Year` == 2012 + c & 
-                    speeding_subset$`Neighborhood Number`== hood_number)
+                    speeding_subset$`Neighbourhood Number`== hood_number)
     speeding_table[[c]][[hood_number]] = sum(temp$'Ticket Count')
   }
 }
