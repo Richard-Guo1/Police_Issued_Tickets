@@ -6,7 +6,7 @@ author:
 thanks: "The code and data supporting this analysis are available at: https://github.com/Richard-Guo1/Police_Issued_Tickets."
 date: today
 date-format: long
-abstract: "To be included once analysis is completed"
+abstract: "The number of police issued tickets increased between years 2019 and 2020. The increase in tickets was caused by a significant increase in speeding tickets. The percentage of total tickets being speeding is roughly constant between the periods of before and after 2020. This supports an inverse correlation between the number of vehicles on a road and the number of issued speeding tickets."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -22,7 +22,7 @@ library(knitr)
 
 data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
 spd_data <- 
-  read.csv(here::here("data/analysis_data/speeding_by_district_and_year"))
+  read.csv(here::here("data/analysis_data/speeding_by_district_and_year.csv"))
 
 ```
 
@@ -33,10 +33,11 @@ The categories of tickets are Aggressive Driving, All Compulsory Automobile Insu
 
 
 # Data {#sec-mydatasection}
+The data used for this analysis was taken from @opendatatoronto. The raw data is sorted by the ticket ID, year, police division, ticket type, offence category, age group, neighborhood ID and name, and ticket count. The ticketable offences were Aggressive Driving, All Compulsory Automobile Insurance Act transgressions (All CAIA), Distracted Driving, Other Highway Traffic Act infractions (Other HTA), and Speeding. The categories of ticket ID, ticket type, and age group were omitted due to being irrelevant to the analysis. The category of neighborhood name was omitted in favour of using neighborhood IDs instead, for ease of sorting. The graphs and tables were generated with the help of @talia and @tidyverse. 
 
 
 ```{r}
-#| label: tickets-by-year
+#| label: fig-tickets-by-year
 #| fig-cap: Annual Number of Police Issued Tickets between 2014 and 2023
 #| echo: false
   
@@ -48,71 +49,71 @@ data |>
 
 ```
 
-It is a common assumption that the amount of police issued tickets is directly proportional to the number of drivers on a road. The conclusion of this assumption is that fewer cars on the roads, and by extension the COVID-19 stay at home policies, would cause a decrease in the number of tickets in 2020 compared to 2019. However, @tickets-by-year shows this is not the case. 
+It is a common assumption that the amount of police issued tickets is directly proportional to the number of drivers on a road. The conclusion of this assumption is that fewer cars on the roads, and by extension the COVID-19 stay at home policies, would cause a decrease in the number of tickets in 2020 compared to 2019. However, @fig-tickets-by-year shows this is not the case. 
 
 
 
 
 
 # Discussion
-
-## Identifying the Cause of Increased Speeding Tickets {#sec-first-point}
-- major increase in speeding tickets between 2014-2019 and 2020-2023, aligns with covid lockdown restrictions 
-- possible explanation is people sped more due to fewer cars on the roads and highways
+## The speed limit reduction
+An alternative explanation for the increase in speeding is the gradual reduction of major street speed limits from 60 to 50 km/h. Many drivers develop habits for how hard they need to step on the gas pedal to remain at a stable speed. Following this explanation, an increase in speeding tickets in 2020 in neighbourhoods where the changes were enacted, with speeding tickets decreasing in later years as drivers get used to the new speed limit. This pattern can be observed in Neighbourhood 4, the Rexdale-Kipling area, on @tbl-speeding. However, while it is a large increase in speeding relative to its own neighbourhood, it is a small fraction of the increase seen in Neighbourhood 1, the West Humber-Claireville region. In the full speeding table @tbl-speeding-full, a pattern where both the most speeding happens and the largest increases in speeding are in neighbourhoods with direct access to a highway is observed. This pattern supports the inverse correlation that less congestion on highways - fewer vehicles on the roads - predicts more speeding vehicles, and more speeding tickets. 
 
 ```{r}
 #| label: tbl-speeding
-#| tbl-cap: Speeding Tickets In Districts 1-6 Sorted by Year
+#| tbl-cap: Speeding Tickets In Neighborhoods, 1-6 Sorted by Year
 #| echo: false
 
+colnames(spd_data) <- gsub("X", "", colnames(spd_data))
 kable(head(spd_data))
 
 ```
-- A large increase in the amount of speeding tickets issued between 2019 and 2020 in district 1 - the West Humber-Claireville region - can be observed. The increase year-over-year is attributed to the district containing the connection point between Toronto-Pearson Airport and the rest of Toronto.
-- other possible explanation is lower speed limits means more speeding
-- observations
 
-## second discussion point
-```{r}
-#| label: all-tickets-by-division
-#| fig-cap: Police Issued Tickets by Division in 2016-2023
-#| echo: false
-  
-subset(data,data$`Offence Year` >= 2016) |> 
-  ggplot(aes(x = Division, weight = `Ticket Count`, 
-             fill = as.character(`Offence Year` >2019))) + 
-  geom_bar(position = "dodge") + labs(y = "Total Tickets")
 
-```
+## Shifts in policing focus
+Another possible explanation is that some time between 2019 and 2020, the traffic divisions of the Toronto Police Services decided to more heavily enforce speeding violations. The outcome of this assumption would also be an increase in the number of speeding tickets. As this would be a city-wide change in priorities, there should be an observable increase in speeding tickets across all police divisions. 
+
 
 ```{r}
-#| label: speeding-tickets-by-division
+#| label: fig-speeding-tickets-by-division
 #| fig-cap: Police Issued Tickets for Speeding by Division in 2016-2023
 #| echo: false
   
 subset(data,data$`Offence Year` >= 2016 & data$`Offence Category`=="Speeding") |> 
   ggplot(aes(x = Division, weight = `Ticket Count`, 
              fill = as.character(`Offence Year` >2019))) + 
-  geom_bar(position = "dodge") + labs(y = "Speeding Tickets")
+  geom_bar(position = "dodge") + labs(y = "Speeding Tickets") +
+  guides(x = guide_axis(angle = 70)) + 
+  scale_fill_discrete(name = "Years", labels = c("2016-2019","2020-2023"))
+
+```
+```{r}
+#| label: fig-agressive-by-division
+#| fig-cap: Police Issued Tickets by Division in 2016-2023
+#| echo: false
+  
+subset(data,data$`Offence Year` >= 2016 & 
+         data$`Offence Category` == "Aggressive Driving") |> 
+  ggplot(aes(x = Division, weight = `Ticket Count`, 
+             fill = as.character(`Offence Year` >2019))) + 
+  geom_bar(position = "dodge") + labs(y = "Aggressive Driving Tickets") + 
+  guides(x = guide_axis(angle = 70)) + 
+  scale_fill_discrete(name = "Years", labels = c("2016-2019","2020-2023"))
 
 ```
 
 
-
 ## Limitations
-A significant portion of the data had to be thrown out as either the police division or district number had no specified address (NSA). 
+A significant portion of the data had to be omitted as either the police division or district number had no specified address (NSA). 
 \newpage
 
 \appendix
-
-# Appendix {-}
-
 
 # Additional data details
 
 ```{r}
 #| label: tbl-speeding-full
-#| tbl-cap: Speeding Tickets In all Districts Sorted by Year
+#| tbl-cap: Speeding Tickets In all Neighbourhoods, Sorted by Year
 #| echo: false
 
 kable(spd_data)
@@ -123,5 +124,3 @@ kable(spd_data)
 
 
 # References
-
-
