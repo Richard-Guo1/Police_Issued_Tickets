@@ -31,7 +31,8 @@ names(cleaned_data) <- c("Offence Year", "Division", "Offence Category",
                          "Neighborhood Number", "Ticket Count")
 
 # Create a subset detailing only speeding data
-speeding_subset = subset(data, data$`Offence Category` == "Speeding")  
+speeding_subset = subset(cleaned_data, 
+                         cleaned_data$`Offence Category` == "Speeding")  
 
 ### Generate a table of Speeding tickets by district by year ###
 #Initialize dummy table
