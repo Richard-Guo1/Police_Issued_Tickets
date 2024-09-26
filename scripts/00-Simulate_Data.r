@@ -22,19 +22,34 @@ end_year <- 2024
 # Define the number of unique districts in Toronto
 districts <- 174
 
+# Define a list of possible ticketable offences 
+offences <- c("Speeding", "Aggressive Driving", "Distracted Driving", 
+              "All CAIA", "Other HTA")
+
 # Set the number of random tickets you want to generate
 number_of_tickets <- 500
 
 sim_data <-
   tibble(
-    ticket_id = 1:number_of_tickets,
-    offense_year = as.integer(
+    offence_year = as.integer(
       runif(
         number_of_tickets,
         start_year,
         end_year
       )
     ),
+    division = paste(
+      "D",
+      as.character(
+        runif(
+          number_of_tickets,
+          1,
+          50
+        )
+      ),
+      sep = ""
+    ),
+    offence_category = sample(offences, number_of_tickets, replace = TRUE),
     hood_id = as.integer(
       runif(
         number_of_tickets,
@@ -42,7 +57,7 @@ sim_data <-
         districts + 1
       )
     ),
-    ticket_count = rpois(n = number_of_tickets, lambda = 9)
+    ticket_count = rpois(n = number_of_tickets, lambda = 200)
   )
 
 
