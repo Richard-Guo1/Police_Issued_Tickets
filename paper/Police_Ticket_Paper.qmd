@@ -28,9 +28,13 @@ spd_data <-
 
 
 # Introduction
+This paper, titled The Effects of COVID-19 on Police Issued Tickets, examines how the COVID-19 pandemic impacted the issuance of traffic tickets by the police. Specifically, it explores the assumption that fewer vehicles on the roads due to lockdown measures would lead to a decrease in ticket issuance. However, the findings indicate a more complex outcome: while there was a reduction in several types of infractions (e.g., aggressive driving and distracted driving), there was a significant surge in speeding violations.
 
-The categories of tickets are Aggressive Driving, All Compulsory Automobile Insurance Act transgressions (All CAIA), Distracted Driving, Other Highway Traffic Act infractions (Other HTA), and speeding. 
+The analysis relies on data sourced from Gelfand (2022) and processed using the R programming environment. The data set includes variables such as ticket type, police division, and offense category, though some data points, such as neighborhood names, were omitted for clarity. The analysis is grounded in a hypothesis that the number of tickets is proportional to traffic volume, but the results show that while non-speeding offenses decreased, speeding offenses tripled, suggesting an inverse relationship between road congestion and speeding.
 
+The paper is structured as follows: it opens with an introduction to the research question and data sources, followed by a detailed presentation of the dataset and its preparation. The core analysis discusses potential causes for the increase in speeding, including speed limit reductions and shifts in policing priorities. Finally, the paper addresses limitations, particularly related to omitted data points, and presents conclusions supported by graphical evidence and statistical trends.
+
+Overall, the paper offers a nuanced understanding of traffic enforcement dynamics during a period of reduced mobility, emphasizing how certain offenses like speeding may be more prevalent when road conditions change dramatically.
 
 # Data {#sec-mydatasection}
 The data used for this analysis was taken from @opendatatoronto. The raw data is sorted by the ticket ID, year, police division, ticket type, offence category, age group, neighborhood ID and name, and ticket count. The ticketable offences were Aggressive Driving, All Compulsory Automobile Insurance Act transgressions (All CAIA), Distracted Driving, Other Highway Traffic Act infractions (Other HTA), and Speeding. The categories of ticket ID, ticket type, and age group were omitted due to being irrelevant to the analysis. The category of neighborhood name was omitted in favour of using neighborhood IDs instead, for ease of sorting. The graphs and tables were generated with the help of @talia and @tidyverse. 
@@ -49,10 +53,7 @@ data |>
 
 ```
 
-It is a common assumption that the amount of police issued tickets is directly proportional to the number of drivers on a road. The conclusion of this assumption is that fewer cars on the roads, and by extension the COVID-19 stay at home policies, would cause a decrease in the number of tickets in 2020 compared to 2019. However, @fig-tickets-by-year shows this is not the case. 
-
-
-
+This paper was written with the initial hypothesis that the amount of police issued tickets is directly proportional to the number of drivers on a road. The conclusion of this assumption is that fewer cars on the roads, and by extension the COVID-19 stay at home policies, would cause a decrease in the number of tickets in 2020 compared to 2019. @fig-tickets-by-year shows this is not the case. Compared to the previous years, there is a small decrease in tickets issued for aggressive driving, distracted driving, all CAIA, and other HTA infractions. However, the roughly tripled amount of speeding tickets offsets the decreased tickets from the four other offences combined. This data supports an alternative hypothesis that non-speeding based offences are positively correlated with the amount of drivers while speeding offences are inversely correlated.
 
 
 # Discussion
@@ -71,11 +72,12 @@ kable(head(spd_data))
 
 
 ## Shifts in policing focus
-Another possible explanation is that some time between 2019 and 2020, the traffic divisions of the Toronto Police Services decided to more heavily enforce speeding violations. The outcome of this assumption would also be an increase in the number of speeding tickets. As this would be a city-wide change in priorities, there should be an observable increase in speeding tickets across all police divisions. 
+Another possible explanation is that some time between 2019 and 2020, the traffic divisions of the Toronto Police Services decided to more heavily enforce speeding violations. The outcome of this assumption would also be an increase in the number of speeding tickets. As this would be a city-wide change in priorities, there should be an observable increase in speeding tickets across all police divisions, with an equal number or decrease in other tickted offences. @fig-speeding-division compares the amount of speeding tickets issued by division in the four years prior to and after 2020. It shows the expected increase of speeding tickets from most police divisions, with divisions 31, 51 and 52 being the outliers. 
 
+@fig-tickets-by-year shows that other HTA tickets were the most common before 2020. @fig-ohta-division compares the tickets issued for other HTA infractions over the same time period as @fig-speeding-division. The graph shows that other HTA tickets decreased after 2020 in most police divisions. Comparing both graphs, it can be observed that divisions 31 and 52 saw a decrease in both ticket types, divisions 11, 14 and 32 saw an increase in both, and division 51 observed both a decrease in speeding and an increase in other HTA offences. Since six of sixteen observations do not align with the expectation, the data does not provide sufficient evidence to support the claim that there was a shift in police priorities. 
 
 ```{r}
-#| label: fig-speeding-tickets-by-division
+#| label: fig-speeding-division
 #| fig-cap: Police Issued Tickets for Speeding by Division in 2016-2023
 #| echo: false
   
@@ -83,28 +85,28 @@ subset(data,data$`Offence Year` >= 2016 & data$`Offence Category`=="Speeding") |
   ggplot(aes(x = Division, weight = `Ticket Count`, 
              fill = as.character(`Offence Year` >2019))) + 
   geom_bar(position = "dodge") + labs(y = "Speeding Tickets") +
-  guides(x = guide_axis(angle = 70)) + 
+  coord_flip() +
   scale_fill_discrete(name = "Years", labels = c("2016-2019","2020-2023"))
 
 ```
 ```{r}
-#| label: fig-agressive-by-division
+#| label: fig-ohta-division
 #| fig-cap: Police Issued Tickets by Division in 2016-2023
 #| echo: false
   
 subset(data,data$`Offence Year` >= 2016 & 
-         data$`Offence Category` == "Aggressive Driving") |> 
+         data$`Offence Category` == "Other HTA") |> 
   ggplot(aes(x = Division, weight = `Ticket Count`, 
              fill = as.character(`Offence Year` >2019))) + 
-  geom_bar(position = "dodge") + labs(y = "Aggressive Driving Tickets") + 
-  guides(x = guide_axis(angle = 70)) + 
+  geom_bar(position = "dodge") + labs(y = "Other HTA Tickets") + 
+  coord_flip() +
   scale_fill_discrete(name = "Years", labels = c("2016-2019","2020-2023"))
 
 ```
 
 
 ## Limitations
-A significant portion of the data had to be omitted as either the police division or district number had no specified address (NSA). 
+A significant portion of the data had to be omitted as either the police division or district number had no specified address (NSA). The datapoints with both categories returning NSA are not beneficial to any analysis, other than showing the trends of offence category by year, which can be sufficiently done with the remaining data. The datapoints with only one category returning NSA may be used for some analysis, but were omitted for the sake of clarity. However, as the omitted data could not be analyzed, it is possible that some of the analysis does not align with reality.
 \newpage
 
 \appendix

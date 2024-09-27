@@ -10,11 +10,11 @@ The repo is structured as:
 
 -   `data/raw_data` contains the raw data as obtained from the Open Data Toronto database.
 -   `data/analysis_data` contains the cleaned datasets that were constructed.
--   `other` contains sketches of what the data may look like.
+-   `other` contains sketches of what the data may look like and logs of LLM usage.
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 
 
 ## Statement on LLM usage
 
-There was no usage of LLMs in the writing of this paper.
+The introduction of the paper was written with the usage of ChatGPT4o. The entire chat history is available in other/llm/usage.txt.
